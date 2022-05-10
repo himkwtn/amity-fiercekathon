@@ -10,6 +10,17 @@ provider:
 
 plugins:
   - serverless-offline
+  - serverless-lift
+
+constructs:
+  user-queue:
+    type: queue
+    worker:
+      handler: handler.createUserWorker
+  post-queue:
+    type: queue
+    worker:
+      handler: handler.createPostWorker
 
 functions:
   hello:
@@ -18,6 +29,15 @@ functions:
       - httpApi:
           path: /
           method: get
+
+  createUserQueue:
+    handler: handler.createUserQueue
+    events:
+      - httpApi:
+          path: /users-queue
+          method: post
+    environment:
+      QUEUE_URL: ${construct:user-queue.queueUrl}
 
   createUser:
     handler: handler.createUser
