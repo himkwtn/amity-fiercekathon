@@ -1,0 +1,27 @@
+org: himkwtn
+app: amity-fiercekathon
+service: amity-fiercekathon
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-southeast-1
+
+plugins:
+  - serverless-offline
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
+
+  createUser:
+    handler: handler.createUser
+    events:
+      - httpApi:
+          path: /users
+          method: post
