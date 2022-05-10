@@ -5,9 +5,10 @@ class PostService {
     this.api = api(apiKey, accessToken);
   }
 
-  async createPost(text) {
-    const { data } = await api.post("/v4/posts", {
+  async createPost(text, postId) {
+    const { data } = await this.api.post("/api/v4/posts", {
       data: { text },
+      postId,
     });
     return data;
   }

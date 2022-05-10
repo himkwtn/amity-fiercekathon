@@ -6,10 +6,10 @@ class UserService {
   }
 
   async createUser(userId, displayName) {
-    const { data } = await api.post("/v3/session", {
+    const { data } = await this.api.post("/api/v3/sessions", {
       userId,
       deviceId: userId,
-      displayName,
+      displayName: displayName ?? userId,
     });
     return data;
   }

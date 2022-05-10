@@ -25,3 +25,10 @@ functions:
       - httpApi:
           path: /users
           method: post
+
+  createPost:
+    handler: handler.createPost
+    events:
+      - httpApi:
+          path: /posts
+          method: post

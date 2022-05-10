@@ -1,8 +1,7 @@
 "use strict";
 
-const axios = require("axios").default;
-
-const API_KEY = "axios.create({ baseURL: BASE_URL });";
+const PostService = require("./post");
+const UserService = require("./user");
 
 module.exports.hello = async (event) => {
   return {
@@ -19,13 +18,29 @@ module.exports.hello = async (event) => {
 };
 
 module.exports.createUser = async (event) => {
-  const body = JSON.parse(event.body);
-  const { data } = await axios.post(`${BASE_URL}/v1/device`, body, {
-    headers: { "x-api-key": API_KEY },
-  });
-  console.log(data);
+  try {
+    const { apiKey, userId, displayName } = JSON.parse(event.body);
+    console.log(userId, displayName);
+    const userService = new UserService(apiKey);
+    const result = await userService.createUser(userId, displayName);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result),
+    };
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+};
+
+module.exports.createPost = async (event) => {
+  const { apiKey, userId, postId, text } = JSON.parse(event.body);
+  const userService = new UserService(apiKey);
+  const { accessToken } = await userService.createUser(userId);
+  const postService = new PostService(apiKey, accessToken);
+  const result = await postService.createPost(text, postId);
   return {
     statusCode: 200,
-    body: JSON.stringify(data),
+    body: JSON.stringify(result),
   };
 };
