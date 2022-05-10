@@ -12,8 +12,10 @@ class GetStreamUser {
       { limit: 100 }
     );
     return users.map((user) => ({
-      id: user.id,
+      userId: user.id,
       displayName: user.name,
     }));
   }
 }
+
+module.exports = GetStreamUser;

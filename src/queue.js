@@ -4,11 +4,11 @@ const sqs = new AWS.SQS({
   region: process.env.AWS_REGION,
 });
 
-exports.sendMessage = async function (message) {
+exports.sendMessage = async function (queue, message) {
   // Send a message into SQS
   await sqs
     .sendMessage({
-      QueueUrl: process.env.QUEUE_URL,
+      QueueUrl: queue,
       // Any message data we want to send
       MessageBody: JSON.stringify(message),
     })

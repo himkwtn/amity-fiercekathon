@@ -13,8 +13,8 @@ class GetStreamPost {
     const user = this.client.feed("user", userId);
     const { results } = await user.get({ limit: 100, offset: 0 });
     const activities = results.map((result) => {
-      const { attachments, id, text } = result;
-      return { attachments, postId: id, text };
+      const { id, text } = result;
+      return { postId: id, text };
     });
     return activities;
   }

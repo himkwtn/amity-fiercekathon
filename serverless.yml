@@ -13,6 +13,13 @@ plugins:
   - serverless-lift
 
 constructs:
+  migrate-queue:
+    type: queue
+    worker:
+      handler: handler.migrateWorker
+      environment:
+        USER_QUEUE: ${construct:user-queue.queueUrl}
+        POST_QUEUE: ${construct:post-queue.queueUrl}
   user-queue:
     type: queue
     worker:
@@ -52,3 +59,12 @@ functions:
       - httpApi:
           path: /posts
           method: post
+
+  migrate:
+    handler: handler.migrate
+    events:
+      - httpApi:
+          path: /migrate
+          method: get
+    environment:
+      MIGRATE_QUEUE: ${construct:migrate-queue.queueUrl}
