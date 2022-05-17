@@ -37,29 +37,6 @@ functions:
           path: /
           method: get
 
-  createUserQueue:
-    handler: handler.createUserQueue
-    events:
-      - httpApi:
-          path: /users-queue
-          method: post
-    environment:
-      QUEUE_URL: ${construct:user-queue.queueUrl}
-
-  createUser:
-    handler: handler.createUser
-    events:
-      - httpApi:
-          path: /users
-          method: post
-
-  createPost:
-    handler: handler.createPost
-    events:
-      - httpApi:
-          path: /posts
-          method: post
-
   migrate:
     handler: handler.migrate
     events:
